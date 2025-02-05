@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rooms',
+    'account'
 ]
 
 MIDDLEWARE = [
@@ -127,3 +127,7 @@ TEMPLATES[0]['DIRS'] = [os.path.join(BASE_DIR, 'templates')]
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = 'dashboard'  # URL a la que redirige tras login exitoso
+   # URL a la que redirige tras logout
+ # Nombre de la URL a la que redirigirá después del logout

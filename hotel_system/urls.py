@@ -16,15 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rooms import views
-
+from account.views import index
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('rooms/', include('rooms.urls')),  # Enlace a las URLs de "rooms"
-    path('', views.index, name='index'),
-    path('login/', views.login_view, name='login'),
-    path('payment/', views.payment, name='payment'),
-    path('pricing/', views.pricing, name='pricing'),
-    path('register/', views.register, name='register'),
+    path("", index, name="landing_page"),
+    path("app/", include("account.urls"))
 ]
 
