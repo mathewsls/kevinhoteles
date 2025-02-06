@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from account.views import index, pricing
 urlpatterns = [
+    path("admin/", admin.site.urls , name=""),
     path("", index, name="landing_page"),
     path("pricing/", pricing, name="pricing_page"),
     path("app/", include("account.urls"))
