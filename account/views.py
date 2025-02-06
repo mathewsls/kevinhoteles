@@ -29,4 +29,10 @@ class VistaReservar(LoginRequiredMixin, TemplateView, FormView):
         form.save()
         return super().form_valid(form)
 class VistaDashboard(LoginRequiredMixin, TemplateView):
+    model = Reserva
     template_name = 'dashboard.html'
+    context_object_name = 'reservas'
+    
+    def get_queryset(self):
+        return Reserva.objects.filter(usuario=self.request.user)
+    
