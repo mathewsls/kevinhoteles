@@ -6,11 +6,11 @@
 <header
   class="mt-0 ms-4 me-4 d-flex justify-content-between align-items-center"
 >
-  <h4>HotelesKevin - Reservas</h4>
+  <h4>HotelesKevin</h4>
   <ul
     class="list-unstyled d-flex justify-content-between align-items-center w-25 mt-3 fs-5"
   >
-    <li><a href="{%url 'reservar'%}" class="text-decoration-none text-light">Crear reserva</a></li>
+    <li><a href="#" class="text-decoration-none text-light">Soporte</a></li>
     <li>
       <a href="{% url 'pricing_page'%}" class="text-decoration-none text-light"
         >Precios</a
@@ -57,5 +57,31 @@
       }
     });
   });
+
+  // Añadir fechas al carrito
+function agregarAlCarrito(habitacionId, fechaInicio, fechaFin) {
+  const carrito = JSON.parse(localStorage.getItem('carrito_reservas')) || [];
+  carrito.push({ habitacionId, fechaInicio, fechaFin });
+  localStorage.setItem('carrito_reservas', JSON.stringify(carrito));
+}
+
+// Obtener carrito
+function obtenerCarrito() {
+  return JSON.parse(localStorage.getItem('carrito_reservas')) || [];
+}
+
+// Vaciar carrito después del pago
+function vaciarCarrito() {
+  localStorage.removeItem('carrito_reservas');
+}
 </script>
+{{ form.media }}
+
+<div class="d-flex flex-column align-items-center">
+<form method="post" class="d-flex flex-column justify-content-center">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-light">Reservar</button>
+</form>
+</div>
 {% endblock content%}
