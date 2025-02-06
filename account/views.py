@@ -7,6 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def index(request):
     return render(request, "index.html")
 
+def pricing(request):
+    return render(request, "pricing.html")
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'

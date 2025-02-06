@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from account.views import index
+from account.views import index, pricing
 urlpatterns = [
     path("", index, name="landing_page"),
+    path("pricing/", pricing, name="pricing_page"),
     path("app/", include("account.urls"))
 ]
 
