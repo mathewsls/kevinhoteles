@@ -1,0 +1,82 @@
+{% extends './layout/base.html'%} 
+{% block head %}{% endblock head %}
+{% block content %}
+
+
+<header
+  class="mt-0 ms-4 me-4 d-flex justify-content-between align-items-center"
+>
+  <h4>Hotel Kevin's - reservar</h4>
+  <ul
+    class="list-unstyled d-flex justify-content-between align-items-center w-25 mt-3 fs-5"
+  >
+    <li><a href="{% url 'dashboard'%}" class="text-decoration-none text-light">Dashboard</a></li>
+    <li>
+      <a href="{% url 'landing_page'%}" class="text-decoration-none text-light"
+        >Acerca de</a
+      >
+    </li>
+    <a href="#" onclick="login" id="logout-btn" class="btn btn-light"
+      >Logout <i class="bi bi-person-circle"></i
+    ></a>
+  </ul>
+</header>
+
+
+<form
+  style="display: none"
+  method="post"
+  id="logout-form"
+  action="{% url 'logout' %}"
+>
+  {% csrf_token %}
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  const logoutBtn = document.getElementById("logout-btn");
+
+  logoutBtn.addEventListener("click", () => {
+    Swal.fire({
+      title: "¿Estas seguro de cerrar sesion?",
+      text: "se cerrara la sesion",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "cancelar",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById("logout-form").submit();
+      }
+    });
+  });
+
+  // Añadir fechas al carrito
+function agregarAlCarrito(habitacionId, fechaInicio, fechaFin) {
+  const carrito = JSON.parse(localStorage.getItem('carrito_reservas')) || [];
+  carrito.push({ habitacionId, fechaInicio, fechaFin });
+  localStorage.setItem('carrito_reservas', JSON.stringify(carrito));
+}
+
+// Obtener carrito
+function obtenerCarrito() {
+  return JSON.parse(localStorage.getItem('carrito_reservas')) || [];
+}
+
+// Vaciar carrito después del pago
+function vaciarCarrito() {
+  localStorage.removeItem('carrito_reservas');
+}
+</script>
+{{ form.media }}
+
+<div class="d-flex flex-column align-items-center">
+<form method="post" class="d-flex flex-column justify-content-center">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-light">Reservar</button>
+</form>
+</div>
+{% endblock content%}

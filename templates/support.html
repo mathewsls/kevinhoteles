@@ -1,0 +1,58 @@
+{% extends "./layout/base.html" %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas - Hoteles kevin's</title>
+</head>
+{% block content %}
+<header class="mt-0 ms-4 me-4 d-flex justify-content-between align-items-center">
+        <h4>Hoteles kevin's</h4>
+        <ul class="list-unstyled d-flex justify-content-between align-items-center w-25 mt-3 fs-5">
+            <li><a href="{% url 'login'%}" class="text-decoration-none text-light">Iniciar sesion</a></li>
+            <li><a href="{% url 'pricing_page'%}" class="text-decoration-none text-light">Precios</a></li>
+            <li><a href="{% url 'landing_page'%}" class="text-decoration-none text-light">Acerca de</a></li>
+        </ul>
+    </header>
+    <section class="container mt-5">
+        <div class="row justify-content-center">
+            <article class="col-md-4 p-3 gradiente rounded">
+                <div>
+                    <div>
+                        <div class="mb-3">
+                          <label for="exampleInputEmail1" class="form-label">Correo electronico</label>
+                          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                          <div id="emailHelp" class="form-text text-light">abriremos un ticket para responder a tu solicitud.</div>
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" placeholder="Deja un comentario" id="floatingTextarea"></textarea>
+                            <label for="floatingTextarea">Comments</label>
+                        </div>
+                        <div class="mb-3 form-check">
+                          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                          <label class="form-check-label" for="exampleCheck1">Acepta terminos y condiciones</label>
+                        </div>
+                        <button class="btn btn-primary" id="submit">enviar</button>
+                    </div>
+                    </a>
+                </div>
+            </article>
+        </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  const submitBtn = document.getElementById("submit");
+
+  submitBtn.addEventListener('click', (e) => {
+    Swal.fire({
+        title: "Enviado",
+        text: "Nuestro equipo trabaja muy duro, atenderemos lo mas pronto posible",
+        icon: "success"
+      });
+  })
+
+</script>
+    {% endblock content %}  
+</html>

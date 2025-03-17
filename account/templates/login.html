@@ -1,0 +1,53 @@
+{% extends "./layout/base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+<header class="mt-0 ms-4 me-4 d-flex justify-content-between align-items-center">
+    <h4>Hoteles Kevin</h4>
+    <ul class="list-unstyled d-flex justify-content-between align-items-center w-25 mt-3 fs-5">
+        <li><a href="#" class="text-decoration-none text-light">Soporte</a></li>
+        <li><a href="{% url 'pricing_page'%}" class="text-decoration-none text-light">Precios</a></li>
+        <li><a href="{% url 'landing_page'%}" class="text-decoration-none text-light">Acerca de</a></li>
+    </ul>
+</header>
+<section class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card gradiente">
+                <div class="card-header text-center">
+                    <h3 class="text-light">Ingresar</h3>
+                </div>
+                <div class="card-body">
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        Usuario o contraseña incorrectos.
+                    </div>
+                    {% endif %}
+                    <form method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label text-light">Usuario</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label text-light">Contraseña</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary rounded-pill">Ingresar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'password_reset' %}" class="text-decoration-none text-light">¿Olvidaste tu contraseña?</a>
+                    <p class="mt-2 text-light">
+                        <a href="{% url 'register' %}" class="text-decoration-none text-light">¿No tienes cuenta? Regístrate</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,38 @@
+{% extends "./layout/base.html" %}
+
+{% load static%}
+{% block title %} Lading page {% endblock title %}
+
+
+{% block content%}
+ <header class="mt-0 ms-4 me-4 d-flex justify-content-between align-items-center ">
+        <h4>Hoteles kevin's</h4>
+        <ul class="list-unstyled d-flex justify-content-between align-items-center w-25 mt-3 fs-5">
+            <li><a href="{% url 'support_page'%}" class="text-decoration-none text-light">Soporte</a></li>
+            <li><a href="{% url 'pricing_page'%}" class="text-decoration-none text-light">Precios</a></li>
+            <li><a href="#" class="text-decoration-none text-light">Acerca de</a></li>
+        </ul>
+        <a href="{% url 'login'%}" class="m-4 ps-2 btn btn-light rounded-pill d-inline-flex align-items-center fs-5">
+             Ingresar 
+            <i class="bi bi-arrow-right mt-0 ms-1 me-1"></i>
+        </a>
+    </header>
+    
+    <section class="p-1 m-5 gradiente d-flex rounded align-items-center">
+        <div class="ms-5">
+            <a href="#" class="m-3 btn btn-light rounded-pill fs-5">#Hoteles kevin's</a>
+            <div class="m-3 col-md-4">
+                <h3>Solución flexible</h3>
+                <p>Reserva tu estancia en nuestros hoteles. Selecciona fechas, habitación y servicios. Paga seguro y confirma tu reserva</p>
+                <p class="fw-bold">El mejor hotel de Singapur, Dubái y Hong Kong</p>
+            </div>
+            <a href="{% url 'register' %}" class="m-3 p-0 ps-1 btn btn-light rounded-pill d-inline-flex align-items-center fs-5">
+                Regístrate Gratis
+                <i class="bi bi-arrow-right-circle-fill fs-3 mt-0 ms-2 me-1"></i>
+            </a>
+        </div>
+        <!-- Imagen estática -->
+        <img src="{% static 'images/landing-page.jpg' %}" class="rounded m-4 " style="height: 400px; width: auto;" alt="imagen-de-hotel-fachera"/>    
+    </section>
+
+{%endblock content%}

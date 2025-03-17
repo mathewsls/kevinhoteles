@@ -1,0 +1,95 @@
+{% extends './layout/base.html' %} {% block head %}
+<style>
+  .form-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+</style>
+{% endblock head %} 
+{% block content %}
+<header class="mt-0 ms-4 me-4 d-flex justify-content-between align-items-center">
+    <h4>Hoteles kevin's - Reservas - Editar</h4>
+    <ul class="list-unstyled d-flex justify-content-between align-items-center w-25 mt-3 fs-5">
+      <li><a href="{% url 'dashboard' %}" class="text-decoration-none text-light">Dashboard</a></li>
+      <li>
+        <a href="{% url 'landing_page' %}" class="text-decoration-none text-light">Acerca de</a>
+      </li>
+      <a href="#" onclick="login" id="logout-btn" class="btn btn-light">
+        Logout <i class="bi bi-person-circle"></i>
+      </a>
+    </ul>
+  </header>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+{{ form.media }}
+<div class="d-flex flex-column align-items-center mt-2 p-2">
+  <div class="form-container" >
+    <h2 class="mb-4">Editar Reserva</h2>
+    <form method="POST" class="d-flex flex-column">
+      {% csrf_token %}
+      <!-- Mostrar errores generales -->
+      {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {% for error in form.non_field_errors %} {{ error }} {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="mb-3">
+        <label for="{{ form.habitacion.id_for_label }}" class="form-label"
+          >Habitación</label
+        >
+        {{ form.habitacion }} {% if form.habitacion.errors %}
+        <div class="invalid-feedback d-block">
+          {{ form.habitacion.errors.0 }}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="{{ form.fecha_inicio.id_for_label }}" class="form-label"
+            >Fecha Inicio</label
+          >
+          {{ form.fecha_inicio }} {% if form.fecha_inicio.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.fecha_inicio.errors.0 }}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="col-md-6">
+          <label for="{{ form.fecha_fin.id_for_label }}" class="form-label"
+            >Fecha Fin</label
+          >
+          {{ form.fecha_fin }} {% if form.fecha_fin.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.fecha_fin.errors.0 }}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between mt-4">
+        <button type="submit" class="btn btn-primary">
+          <i class="bi bi-save me-2"></i>Guardar Cambios
+        </button>
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary"> Cancelar </a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %} {% block scripts %}
+
+<script>
+  // Inicializar datepickers si estás usando algún plugin
+  $(function () {
+    $("#id_fecha_inicio, #id_fecha_fin").datepicker({
+      format: "yyyy-mm-dd",
+      autoclose: true,
+    });
+  });
+</script>
+{% endblock scripts %}

@@ -1,0 +1,108 @@
+{% extends './layout/base.html' %}
+{% block head %}{% endblock head %}
+{% block content %}
+
+<header class="mt-0 ms-4 me-4 d-flex justify-content-between align-items-center">
+  <h4>Hoteles kevin's - Reservas</h4>
+  <ul class="list-unstyled d-flex justify-content-between align-items-center w-25 mt-3 fs-5">
+    <li><a href="{% url 'reservar' %}" class="text-decoration-none text-light">Reservar</a></li>
+    <li>
+      <a href="{% url 'landing_page' %}" class="text-decoration-none text-light">Acerca de</a>
+    </li>
+    <a href="#" onclick="login" id="logout-btn" class="btn btn-light">
+      Logout <i class="bi bi-person-circle"></i>
+    </a>
+  </ul>
+</header>
+
+<div class="container mt-4">
+  <h2>Mis Reservas</h2>
+
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Habitación</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for reserva in reservas %}
+      <tr>
+        <td>{{ reserva.habitacion }}</td>
+        <td>{{ reserva.fecha_inicio }}</td>
+        <td>{{ reserva.fecha_fin }}</td>
+        <td>
+          <form method="POST" action="{% url 'eliminar_reserva' reserva.id %}" class="d-inline">
+            {% csrf_token %}
+            <button type="button" 
+                    class="btn btn-danger" 
+                    onclick="confirmarEliminacion('{% url 'eliminar_reserva' reserva.id %}')">
+              Eliminar
+            </button>
+          </form>
+          <a href="{% url 'editar_reserva' reserva.id %}" class="btn btn-primary">
+            Editar
+          </a>
+        </td>
+      </tr>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+<form style="display: none" method="post" id="logout-form" action="{% url 'logout' %}">
+  {% csrf_token %}
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function confirmarEliminacion(url) {
+    Swal.fire({
+      title: '¿Confirmar eliminación?',
+      text: "¡Esta acción no se puede revertir!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = url;
+        const csrf = document.createElement('input');
+        csrf.type = 'hidden';
+        csrf.name = 'csrfmiddlewaretoken';
+        csrf.value = '{{ csrf_token }}';
+        form.appendChild(csrf);
+        document.body.appendChild(form);
+        form.submit();
+      }
+    });
+  }
+  const logoutBtn = document.getElementById("logout-btn");
+  logoutBtn.addEventListener("click", () => {
+    Swal.fire({
+      title: "¿Estás seguro de cerrar sesión?",
+      text: "Se cerrará la sesión",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById("logout-form").submit();
+      }
+    });
+  });
+</script>
+
+{% endblock content %}
