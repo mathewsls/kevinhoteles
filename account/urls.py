@@ -17,4 +17,5 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('eliminar/<int:id>/', eliminar_reserva, name='eliminar_reserva'),
     path('editar/<int:id>/', editar_reserva, name='editar_reserva'),
+    path('pagar/', payment, name='payment'),
 ]

@@ -7,8 +7,24 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Habitacion, Reserva
 from django.http import JsonResponse
-from .forms import ReservaForm
+from .forms import ReservaForm, PaymentForm
 
+@login_required
+def payment(request):
+    if request.method == 'POST':
+        print("Formulario enviado")
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            print("Formulario válido")
+            print('Pago procesado con éxito')
+            Reserva.objects.filter(usuario=request.user).update(pagado=True)
+            return redirect('dashboard')
+        else:
+            print("Formulario no válido")
+            print(form.errors)
+    else:
+        form = PaymentForm()
+    return render(request, 'payment.html', {'form': form})
 
 @login_required
 def eliminar_reserva(request, id):

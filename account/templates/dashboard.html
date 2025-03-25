@@ -18,41 +18,56 @@
 <div class="container mt-4">
   <h2>Mis Reservas</h2>
 
-
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Habitación</th>
-        <th>Fecha Inicio</th>
-        <th>Fecha Fin</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for reserva in reservas %}
-      <tr>
-        <td>{{ reserva.habitacion }}</td>
-        <td>{{ reserva.fecha_inicio }}</td>
-        <td>{{ reserva.fecha_fin }}</td>
-        <td>
-          <form method="POST" action="{% url 'eliminar_reserva' reserva.id %}" class="d-inline">
-            {% csrf_token %}
-            <button type="button" 
-                    class="btn btn-danger" 
-                    onclick="confirmarEliminacion('{% url 'eliminar_reserva' reserva.id %}')">
-              Eliminar
-            </button>
-          </form>
-          <a href="{% url 'editar_reserva' reserva.id %}" class="btn btn-primary">
-            Editar
-          </a>
-        </td>
-      </tr>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
+  {% if reservas %}
+    <table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Estado</th>
+      <th>Habitación</th>
+      <th>Fecha Inicio</th>
+      <th>Fecha Fin</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for reserva in reservas %}
+    <tr class="{% if reserva.pagado %}table-success{% endif %}">
+      <td>
+        {% if reserva.pagado %}
+          <span class="badge bg-success">Pagado</span>
+        {% else %}
+          <span class="badge bg-warning">Pendiente</span>
+        {% endif %}
+      </td>
+      <td>{{ reserva.habitacion }}</td>
+      <td>{{ reserva.fecha_inicio }}</td>
+      <td>{{ reserva.fecha_fin }}</td>
+      <td>
+        {% if not reserva.pagado %}
+        <form method="POST" action="{% url 'eliminar_reserva' reserva.id %}" class="d-inline">
+          {% csrf_token %}
+          <button type="button" 
+                  class="btn btn-danger btn-sm" 
+                  onclick="confirmarEliminacion('{% url 'eliminar_reserva' reserva.id %}')">
+            Eliminar
+          </button>
+        </form>
+        <a href="{% url 'editar_reserva' reserva.id %}" class="btn btn-primary btn-sm">
+          Editar
+        </a>
+        {% else %}
+        <span class="text-muted">Acciones no disponibles</span>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+    <a href="{% url 'payment'%}" class="btn btn-success mx-auto d-block mt-4 mb-4" style="background-color: #8bc34a; border-color: #8bc34a; font-size: 24px;">Pagar</a>
+  {% else %}
+    <div class="alert alert-info mt-3" role="alert">
+      No hay reservas por pagar</div>
+  {% endif %}
 </div>
 
 <form style="display: none" method="post" id="logout-form" action="{% url 'logout' %}">
